@@ -1,4 +1,4 @@
-package com.lwlizhe.moudle_common
+package com.lwlizhe.moudle
 
 import org.junit.Test
 

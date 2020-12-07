@@ -1,4 +1,4 @@
-package com.lwlizhe.moudle_common
+package com.lwlizhe.moudle
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
