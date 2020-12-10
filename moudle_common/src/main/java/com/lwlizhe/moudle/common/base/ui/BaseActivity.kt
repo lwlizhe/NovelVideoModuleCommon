@@ -18,7 +18,11 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         configViewModel()
-        setContentView(initRootView())
+        if (getRootViewResId()!=0) {
+            setContentView(getRootViewResId())
+        } else {
+            setContentView(initRootView())
+        }
         initView()
         initListener()
         initData()
@@ -33,7 +37,11 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     }
 
-    protected abstract fun initRootView(): View
+    protected abstract fun getRootViewResId(): Int
+
+    protected fun initRootView(): View? {
+        return null
+    }
 
     protected abstract fun initView()
 
