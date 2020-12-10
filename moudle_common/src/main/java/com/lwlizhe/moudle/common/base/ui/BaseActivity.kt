@@ -12,7 +12,7 @@ import com.lwlizhe.moudle.common.base.viewmodel.AppViewModel
 import com.lwlizhe.moudle.common.base.viewmodel.BaseViewModel
 
 abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
-    private val appConfigViewModel: AppViewModel = getAppViewModel()
+    private lateinit var appConfigViewModel: AppViewModel
 
     protected lateinit var currentLogicViewModel: VM
 
@@ -31,9 +31,9 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
     }
 
     protected fun configViewModel() {
-
-        appConfigViewModel.getConfigLiveData().observe(this,
-            Observer<AppGlobalStateConfig> { config -> onConfigDataChanged(config) })
+        appConfigViewModel = getAppViewModel()
+        appConfigViewModel.getConfigLiveData()
+            .observe(this, Observer<AppGlobalStateConfig> { config -> onConfigDataChanged(config) })
 
         currentLogicViewModel = createViewModel()
     }
@@ -49,9 +49,7 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
     }
 
     protected abstract fun initView()
-
     protected abstract fun initData()
-
     protected abstract fun initListener()
 
     protected abstract fun onConfigDataChanged(configData: AppGlobalStateConfig)
