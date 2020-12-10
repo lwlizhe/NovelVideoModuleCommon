@@ -6,12 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lwlizhe.moudle.common.base.entity.AppGlobalStateConfig
+import com.lwlizhe.moudle.common.base.getAppViewModel
 import com.lwlizhe.moudle.common.base.viewmodel.AppViewModel
 import com.lwlizhe.moudle.common.base.viewmodel.BaseViewModel
 
 abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
-    protected lateinit var currentViewModel: BaseViewModel
-    protected lateinit var appConfigViewModel: AppViewModel
+    protected var currentViewModel: BaseViewModel? = null
+    private val appConfigViewModel: AppViewModel = getAppViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,16 +24,12 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
         initData()
     }
 
-    protected fun configViewModel(){
+    protected fun configViewModel() {
 
-        appConfigViewModel = ViewModelProvider(this).get(AppViewModel::class.java)
+        appConfigViewModel.getConfigLiveData().observe(this,
+            Observer<AppGlobalStateConfig> { config -> onConfigDataChanged(config) })
+
         currentViewModel = getViewModel()
-
-        val configObserver: Observer<AppGlobalStateConfig> = Observer {
-            onGetConfigData(it)
-        }
-
-        appConfigViewModel.getConfigLiveData().observe(this,configObserver)
 
     }
 
@@ -46,7 +43,5 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     protected abstract fun getViewModel(): VM
 
-    protected fun onGetConfigData(configData:AppGlobalStateConfig ){
-
-    }
+    protected abstract fun onConfigDataChanged(configData: AppGlobalStateConfig)
 }
