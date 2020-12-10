@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.lwlizhe'
@@ -32,7 +33,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -48,10 +55,11 @@ dependencies {
     api 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     api rootProject.ext.dependencies["arouter"]
-    annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
+    kapt rootProject.ext.dependencies["arouter-compiler"]
 
     // ViewModel
     api rootProject.ext.dependencies["viewModel"]
+    api rootProject.ext.dependencies["fragment-ktx"]
     // LiveData
     api rootProject.ext.dependencies["liveData"]
     // Lifecycles only (without ViewModel or LiveData)

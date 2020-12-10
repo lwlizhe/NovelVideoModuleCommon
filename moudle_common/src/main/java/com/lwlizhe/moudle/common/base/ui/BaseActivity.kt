@@ -7,18 +7,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lwlizhe.moudle.common.base.entity.AppGlobalStateConfig
 import com.lwlizhe.moudle.common.base.getAppViewModel
+import com.lwlizhe.moudle.common.base.getVmClazz
 import com.lwlizhe.moudle.common.base.viewmodel.AppViewModel
 import com.lwlizhe.moudle.common.base.viewmodel.BaseViewModel
 
 abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
-    protected var currentViewModel: BaseViewModel? = null
     private val appConfigViewModel: AppViewModel = getAppViewModel()
+
+    protected lateinit var currentLogicViewModel: VM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         configViewModel()
-        if (getRootViewResId()!=0) {
+        if (getRootViewResId() != 0) {
             setContentView(getRootViewResId())
         } else {
             setContentView(initRootView())
@@ -33,8 +35,11 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
         appConfigViewModel.getConfigLiveData().observe(this,
             Observer<AppGlobalStateConfig> { config -> onConfigDataChanged(config) })
 
-        currentViewModel = getViewModel()
+        currentLogicViewModel = createViewModel()
+    }
 
+    private fun createViewModel(): VM {
+        return ViewModelProvider(this).get(getVmClazz(this))
     }
 
     protected abstract fun getRootViewResId(): Int
@@ -48,8 +53,6 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
     protected abstract fun initData()
 
     protected abstract fun initListener()
-
-    protected abstract fun getViewModel(): VM
 
     protected abstract fun onConfigDataChanged(configData: AppGlobalStateConfig)
 }

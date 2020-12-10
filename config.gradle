@@ -13,7 +13,7 @@ ext {
                kotlinVersion              : "1.3.72",
                glideVersion               : "4.11.0",
                glideTransformationsVersion: "4.3.0",
-               lifeCycleVersion           : "2.2.0",
+               jetpackVersion             : "2.2.0",
     ]
 
 
@@ -26,9 +26,11 @@ ext {
             "logger"                    : "com.orhanobut:logger:2.2.0",
 
             //ViewModel(Kotlin)
-            "viewModel"                 : "androidx.lifecycle:lifecycle-viewmodel-ktx:${android["lifeCycleVersion"]}",
-            "liveData"                  : "androidx.lifecycle:lifecycle-livedata-ktx:${android["lifeCycleVersion"]}",
-            "lifeCycleOnly"             : "androidx.lifecycle:lifecycle-runtime-ktx:${android["lifeCycleVersion"]}",
+            "viewModel"                 : "androidx.lifecycle:lifecycle-viewmodel-ktx:${android["jetpackVersion"]}",
+            "liveData"                  : "androidx.lifecycle:lifecycle-livedata-ktx:${android["jetpackVersion"]}",
+            "lifeCycleOnly"             : "androidx.lifecycle:lifecycle-runtime-ktx:${android["jetpackVersion"]}",
+            "viewModel-ktx"             : "androidx.lifecycle:lifecycle-viewmodel-ktx:${android["jetpackVersion"]}",
+            "fragment-ktx"              : "androidx.fragment:fragment-ktx:1.2.5",
 
             //Retrofit
             "retrofit"                  : "com.squareup.retrofit2:retrofit:${android["retrofitSdkVersion"]}",
